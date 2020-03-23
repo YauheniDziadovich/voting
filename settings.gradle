@@ -1,0 +1,4 @@
+rootProject.name = 'voting'
+
+include 'budget-service'
+include 'model'
