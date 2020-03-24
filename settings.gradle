@@ -3,4 +3,5 @@ rootProject.name = 'voting'
 include 'budget-service'
 include 'model'
 include 'config-service'
+include 'registry-service'
 
