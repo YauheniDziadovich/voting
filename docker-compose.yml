@@ -1,0 +1,46 @@
+version: '2.1'
+services:
+  config-service:
+    build: config-service
+    ports:
+      - 8888:8888
+  budget-service-db:
+    image: mongo
+    restart: always
+    environment:
+      #TODO: Secure credential
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+    - 27000:27017
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: budget-service-db
+    depends_on:
+      - budget-service-db
+  registry-service:
+    build: registry-service
+    depends_on:
+      config-service:
+        condition: service_healthy
+    ports:
+      - 8761:8761
+  budget-service:
+    build: budget-service
+    depends_on:
+      config-service:
+        condition: service_healthy
+    ports:
+    - 8088-8092:8090
+
+volumes:
+  mongodb_data:
+    driver: local

@@ -1,2 +1,19 @@
 server:
-  port: 8081
+  port: 8090
+
+#TODO: Secure credentials
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: admin
+      password: password
+      database: budget_db
+      port: 27000
+      host: budget-service-db
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://registry-service:8761/eureka/
